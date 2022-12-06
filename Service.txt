@@ -1,0 +1,97 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.ServiceModel.Web;
+using System.Text;
+using System.Data;
+using System.Data.SqlClient;
+
+// NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service" in code, svc and config file together.
+public class Service : IService
+{
+    SqlConnection con = new SqlConnection("Data Source=DESKTOP-TF4L37R\\SQLEXPRESS;Initial Catalog=student;Integrated Security=True");
+
+    public string studdel(student s)
+    {
+        con.Open();
+        string sd="";
+        SqlCommand cmd = new SqlCommand("delete from tbl_student where rno="+s.rno, con);
+        int result = cmd.ExecuteNonQuery();
+        if (result == 1)
+        {
+            sd = "Student Deleted Sucessfully";
+        }
+        else
+        {
+            sd= "Something Wrong";
+        }
+        con.Close();
+        return sd;
+    }
+
+    public List<student> studdis()
+    {
+        List<student> ls = new List<student>();
+        student s;
+        con.Open();
+        SqlCommand cmd = new SqlCommand("select * from tbl_student", con);
+        SqlDataReader dr = cmd.ExecuteReader();
+        if (dr.HasRows)
+        {
+            while (dr.Read())
+            {
+                s = new student();
+                s.rno = Convert.ToInt16(dr[0]);
+                s.sname = dr[1].ToString();
+                s.course = dr[2].ToString();
+                s.email = dr[3].ToString();
+                s.mno = dr[4].ToString();
+                s.dob = dr[5].ToString();
+                ls.Add(s);
+            }
+        }
+        return ls;
+        con.Close();
+        dr.Close();
+    }
+
+    public string studins(student s)
+    {
+        string sd;
+        List<student> ls = new List<student>();
+        con.Open();
+        SqlCommand cmd = new SqlCommand("insert into tbl_student values('"+s.rno+"','"+s.sname+"','"+s.course+"','"+s.email+"','"+s.mno+"','"+s.dob+"')",con);
+        var ans = cmd.ExecuteNonQuery();
+        if (ans == 1)
+        {
+            sd = "Inserted sucessfully";
+        }else
+        {
+            sd = "somthing wrong";
+        }
+        con.Close();
+        return sd;
+    }
+
+    public string studup(student s)
+    {
+        string sd;
+        con.Open();
+        SqlCommand cmd = new SqlCommand("update tbl_student set sname='" + s.sname + "',course='"+s.course+"',email='"+s.email +"',mno='"+s.mno+"' where rno=" + s.rno,con);
+        //SqlCommand cmd = new SqlCommand("select * from tbl_student where rno="+s.rno,con);
+
+        int ans = cmd.ExecuteNonQuery();
+        if (ans == 1)
+        {
+            sd = "Updated Sucessfully";
+        }
+        else
+        {
+            sd = "something wrong";
+        }
+        con.Close();
+        return sd;
+  }
+}

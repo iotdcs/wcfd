@@ -1,0 +1,85 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.ServiceModel.Web;
+using System.Text;
+
+// NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService" in both code and config file together.
+[ServiceContract]
+public interface IService
+{
+    [OperationContract]
+    List<student> studdis();
+
+    [OperationContract]
+    String studins(student s);
+
+    [OperationContract]
+    String studdel(student s);
+
+    [OperationContract]
+    String studup(student s);
+	// TODO: Add your service operations here
+}
+
+// Use a data contract as illustrated in the sample below to add composite types to service operations.
+[DataContract]
+public class student{
+    //int rno;
+    //string sname;
+    //string course;
+    //string email;
+    //string mno;
+    //string dob;
+
+    //[DataMember]
+    //public int srno
+    //{
+    //    get { return rno; }
+    //    set { rno = value; }
+    //}
+    //[DataMember]
+    //public string ssname
+    //{
+    //    get { return sname; }
+    //    set { sname = value; }
+    //}
+    //[DataMember]
+    //public string scourse
+    //{
+    //    get { return course; }
+    //    set { course = value; }
+    //}
+    //[DataMember]
+    //public string semail
+    //{
+    //    get { return email; }
+    //    set { email = value; }
+    //}
+    //[DataMember]
+    //public string smno
+    //{
+    //    get { return mno; }
+    //    set { mno = value; }
+    //}
+    //[DataMember]
+    //public string sdob
+    //{
+    //    get { return dob; }
+    //    set { dob = value; }
+    //}
+    [DataMember]
+    public int rno { get; set; }
+    [DataMember]
+    public string sname { get; set; }
+    [DataMember]
+    public string course { get; set; }
+    [DataMember]
+    public string email { get; set; }
+    [DataMember]
+    public string mno { get; set; }
+    [DataMember]
+    public string dob { get; set; }
+}
